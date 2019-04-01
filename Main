@@ -1,0 +1,244 @@
+//Emerson Marques Ferreira
+//Pedro Aredes
+//Mateus Lara
+import java.util.Scanner;
+public class Teste3{
+  public static void main(String Args[]){
+    int pontuacao[],operacao = 0; 
+    Boolean Vontade = true;
+    Scanner ler = new Scanner(System.in);
+    pontuacao = new int[100];
+    
+    //P = Position
+    //PV position value
+    //V = value
+    //vr = valor de removidos
+    //CN = contém o valor
+    //SomaT= Soma total
+    for(int i = 0; i<pontuacao.length || Vontade == true ;i++){ 
+      int p = 0,pv = 0,v=0,vr,maior = 0,somaT = 0,error = 0;;
+      Boolean CN = false;    
+      
+      System.out.printf(" 1. Adicionar uma pontuação no final da lista de scores;\n 2. Adicionar uma pontuação em uma dada posição na lista de scores;\n 3. Remover uma pontuação de uma dada posição na lista de scores;\n 4. Remover todas as ocorrências de uma pontuação na lista de scores;\n 5. Verificar se uma pontuação está contida lista de scores;\n 6. Buscar a maior pontuação na lista de scores;\n 7. Calcular a soma total de pontuação na lista de scores;\n 8. Verificar se dado uma pontuação existem duas pontuações na lista de scores que somadas são iguais à pontuação informada\n 0. Se deseja sair da operação\n  ");  
+      System.out.println("Digite o número da operação que deseja fazer no score: ");      
+      operacao=ler.nextInt();      
+      
+      if(operacao == 0)
+      {
+        Vontade = false;
+      }   
+      else if(operacao ==1)
+      {
+        pontuacao[i] = ler.nextInt();        
+      }      
+      else if(operacao == 2)
+      {
+        System.out.println("Digite em qual posição você deseja inserir um número: ");
+        p = ler.nextInt();
+        System.out.println("Digite o valor que deseja inserir: ");
+        pv = ler.nextInt();
+        Op2(pontuacao,p,pv,i);        
+      }
+      else if(operacao ==3)
+      {
+        System.out.println("Digite qual a posição que deseja remover um número: ");
+        p = ler.nextInt();
+        Op3(pontuacao,p,i);
+        i-=2;       
+      }
+      else if(operacao ==4)
+      {
+        System.out.println("Digite qual o número que deseja remover: ");
+        v= ler.nextInt();
+        vr=Op4(pontuacao,v,i);
+        i-=2;        
+      }
+      else if(operacao ==5)
+      {
+        System.out.println("Digite o valor que deseja verificar: ");
+        v = ler.nextInt();
+        CN=Op5(pontuacao,v,CN,i);
+        if(CN);
+        {
+          System.out.println("O valor que você digitou está dentro do Vetor");
+        } 
+        i--;
+      }
+      else if(operacao ==6)
+      {
+        maior = Op6(pontuacao,i);
+        System.out.println("O maior número é: " + maior);
+        i--;
+      }
+      else if(operacao ==7)
+      {
+        somaT= Op7(pontuacao,i);
+        System.out.println("A soma total dos itens dentro do vetor é: " +somaT);
+        i--;
+      }
+      else if(operacao ==8)
+      {
+        System.out.println("Digite o valor que deseja verificar");
+        v = ler.nextInt();
+        CN = Op8(pontuacao,i,v);
+        if(CN)
+        {
+          System.out.println("Existem dois números dentro do vetor que somados dão: "+v);
+        }        
+        else
+        {
+          System.out.println("Não existem dois números dentro do vetor que somados dão: "+v);
+        }
+        i--;
+      }
+      System.out.println(Vetor2String(pontuacao));
+      System.out.println(i);
+    }          
+  }
+  //Faz o print dos valores dentro do vetor
+  public static String Vetor2String(int vetor[]){
+    int i;
+    String resp = "";
+    
+    i = 0; 
+    while( i < vetor.length && vetor[i] != 0){ 
+      resp = resp + vetor[i] + " "; 
+      i++;
+    }
+    return resp;
+  }
+  public static void Op1(int A[],int B,int C)
+  {
+    A[B] = C;
+  }
+  //Adiciona uma pontuação em uma dada posição na lista de scores.
+  public static void Op2(int A[],int B,int C,int D)
+  {       
+    if(A[B] != 0)
+    {
+      for(int i = 0;i<D-B+1;i++)
+      {         
+        int v = D-i,n = D-i+1;
+        int temp = A[v];        
+        A[n] = temp;        
+      }  
+      A[B] = C;
+    }
+    else
+    {
+      System.out.println("Não é possivel executar esta ação");
+    }    
+  }
+  //Remove uma pontuação de uma dada posição na lista de scores
+  public static void Op3(int A[],int B,int C)
+  {
+    if(A[B] !=0)
+    {
+      for(int i = 0;i<C-B;i++){
+        int v = B+i, d = B+i+1;
+        A[v] = A[d];        
+      }
+    }
+    else
+    {
+      System.out.println("Não é possivel executar esta ação");
+    }    
+  }
+  //Remove todas as ocorrências de uma pontuação na lista de scores
+  public static int Op4(int A[],int B,int C)
+  {
+    int d = 0;
+    for(int i = 0;i<C;i++)
+    {
+      if(A[i] == B)
+      {
+        d++;
+        A[i]=0;        
+      }      
+    }    
+    for(int i = 0;i<C;i++)
+    {
+      int v = i+1,temp = 0;;
+      if(A[i] == 0)
+      {
+        temp = A[v];
+        A[i] = temp;
+        A[v] = 0;        
+      }
+    }
+    return d;
+  }
+  //Verifica se uma pontuação está contida lista de scores
+  public static Boolean Op5(int A[],int B,Boolean C,int D)
+  {
+    for(int i = 0; i < D;i++)
+    {
+      if(A[i] == B)
+      {
+        C= true;
+      }      
+    }
+    return C;
+  }
+  //Busca a maior pontuação na lista de scores
+  public static int Op6(int A[], int B)
+  {
+    int maior = 0;
+    for(int i = 0;i<B;i++)
+    {
+      if(A[i] > maior)
+      {
+        maior = A[i];
+      }
+    }
+    return maior;
+  }
+  //Calcula a soma total de pontuação na lista de scores
+  public static int Op7(int A[],int B)
+  {
+    int somaT=0;
+    for(int i = 0;i<B;i++)
+    {
+      somaT+=A[i];
+    }
+    return somaT;
+  } 
+  //Verifica se dado uma pontuação existem duas pontuações na lista de scores que somadas são iguais à pontuação informada.
+  public static Boolean Op8(int A[],int B,int C)
+  {
+    Boolean D = false;        
+    for(int i =0;i<B;i++)
+    {
+      D =VerificaSoma(A,i,C,B);
+      if(D)
+      {
+        D = true;
+        break;
+      }
+    }
+    return D;
+  }
+  public static Boolean VerificaSoma(int A[],int B,int C,int E)
+  {   
+    Boolean J = false;  
+    for(int i = 0;i<E; i++)
+    {      
+      int Soma =0;
+      if(i==B)
+      {     
+        i++;  
+        Soma = A[B]+A[i];
+      }
+      else
+      {
+        Soma = A[B]+A[i];
+      }            
+      if(Soma == C)
+      {
+        J= true;
+        break;        
+      }     
+    }
+    return J;
+  }  
+}
